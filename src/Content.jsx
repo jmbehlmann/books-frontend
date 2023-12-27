@@ -33,6 +33,23 @@ const handleShowBook = (book) => {
   setCurrentBook(book);
 };
 
+const handleUpdateBook = (id, params, successCallback) => {
+  console.log("handleUpdateBook", params);
+  axios.patch(`http://localhost:3000/books/${id}.json`, params).then((response) => {
+    setBooks(
+      books.map((book) => {
+        if (book.id === response.data.id) {
+          return response.data;
+        } else {
+          return book;
+        }
+      })
+    );
+    successCallback();
+    handleClose();
+  })
+}
+
 const handleClose = () => {
   console.log("handleClose");
   setIsBooksShowVisible(false);
@@ -46,7 +63,7 @@ useEffect(handleIndexBooks, [])
       <BooksNew onCreateBook={handleCreateBook} />
       <BooksIndex books={books} onShowBook={handleShowBook} />
       <Modal show={isBooksShowVisible} onClose={handleClose}>
-        <BooksShow book={currentBook} />
+        <BooksShow book={currentBook} onUpdateBook={handleUpdateBook} />
       </Modal>
     </main>
   )
