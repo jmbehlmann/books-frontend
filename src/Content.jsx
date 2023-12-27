@@ -55,6 +55,14 @@ const handleClose = () => {
   setIsBooksShowVisible(false);
 };
 
+const handleDestroyBook = (book) => {
+  console.log("handleDestroyBook", book);
+  axios.delete(`http://localhost:3000/books/${book.id}.json`).then((response) => {
+    setBooks(books.filter((b) => b.id !== book.id));
+    handleClose();
+  });
+};
+
 useEffect(handleIndexBooks, [])
 
   return (
@@ -63,7 +71,7 @@ useEffect(handleIndexBooks, [])
       <BooksNew onCreateBook={handleCreateBook} />
       <BooksIndex books={books} onShowBook={handleShowBook} />
       <Modal show={isBooksShowVisible} onClose={handleClose}>
-        <BooksShow book={currentBook} onUpdateBook={handleUpdateBook} />
+        <BooksShow book={currentBook} onUpdateBook={handleUpdateBook} onDestroyBook={handleDestroyBook} />
       </Modal>
     </main>
   )

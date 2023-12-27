@@ -6,6 +6,10 @@ export function BooksShow(props) {
     props.onUpdateBook(props.book.id, params, () => event.target.reset());
   };
 
+  const handleClick = () => {
+    props.onDestroyBook(props.book);
+  };
+
   return (
     <div>
       <h1>Book Info</h1>
@@ -25,6 +29,7 @@ export function BooksShow(props) {
           </div>
           <button type="submit">Update Book</button>
         </form>
+        <button onClick={handleClick}>Destroy</button>
     </div>
   );
 }
